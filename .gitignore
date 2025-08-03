@@ -1,0 +1,108 @@
+# ----------------------------
+# Python
+# ----------------------------
+
+__pycache__/
+*.py[cod]
+*.pyo
+*.so
+*.egg
+*.egg-info/
+*.manifest
+*.spec
+
+# Byte-compiled / optimized / DLL files
+*.pyc
+*.pyd
+*.pdb
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+env.bak/
+venv.bak/
+
+# Pipenv
+Pipfile.lock
+
+# Poetry
+poetry.lock
+
+# PyInstaller
+dist/
+build/
+
+# Unit test / coverage
+.coverage
+.cache/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Pyre type checker
+.pyre/
+
+# Mypy
+.mypy_cache/
+
+# ----------------------------
+# PyCharm
+# ----------------------------
+
+.idea/
+*.iml
+
+# JetBrains Rider
+.idea/
+
+# ----------------------------
+# Jupyter / Data Science
+# ----------------------------
+
+.ipynb_checkpoints/
+*.ipynb~
+*.csv
+*.tsv
+*.h5
+*.hdf5
+*.npy
+*.npz
+*.pkl
+*.db
+*.sqlite3
+
+# ----------------------------
+# Logs / temp files
+# ----------------------------
+
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# ----------------------------
+# Ignore data/ and tests/ folders anywhere
+# ----------------------------
+
+**/data/
+**/storage/
+#**/tests/
+
+# Optional: Allow keeping empty folders
+!**/data/.gitkeep
+#!**/tests/.gitkeep
+!**/storage/.gitkeep
+
+# ----------------------------
+# OS / Editor junk
+# ----------------------------
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+.env
