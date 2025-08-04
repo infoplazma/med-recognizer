@@ -3,6 +3,7 @@
 Демо файл-сценарий, где два агента-узла `agent1_node` и `agent2_node` передают свои состояния в
 один общий узел `combiner_node` используя подход с `State`.
 """
+import time
 import json
 from typing import TypedDict, Annotated
 from langgraph.graph import StateGraph, START, END
@@ -24,6 +25,9 @@ class State(TypedDict):
 # Узлы
 def extractor_node(state: State) -> State:
     text = state["messages"][-1].content
+    secs = 0.5
+    print(f"extractor: Сейчас я зависну на {secs} секунды.")
+    time.sleep(secs)  # Имитация извлечения
     diseases = json.dumps(["COVID-19", "varicella"])  # Имитация извлечения
     state["messages"].append(AIMessage(content=f"Extracted diseases: {diseases}"))
     return {"extracted_diseases": diseases}
@@ -31,6 +35,9 @@ def extractor_node(state: State) -> State:
 
 def metadata_analyzer_node(state: State) -> State:
     text = state["messages"][-1].content
+    secs = 1.5
+    print(f"metadata_analyzer: Сейчас я зависну на {secs} секунды.")
+    time.sleep(secs)  # Имитация извлечения
     metadata = json.dumps({"date": "2023-01-01"})  # Имитация извлечения метаданных
     state["messages"].append(AIMessage(content=f"Extracted metadata: {metadata}"))
     return {"metadata": metadata}
