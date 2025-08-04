@@ -14,7 +14,6 @@ from langchain_openai import ChatOpenAI
 # Modern imports for langchain and langgraph
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, BaseMessage
 from langgraph.graph import StateGraph, MessagesState, START, END
-from langgraph.types import Command
 from settings import default_llm, openai_llm
 from utils.json_response import clean_json_response
 from toolkit.prompt_templates.researcher_system_prompts import (RESEARCHER_SYSTEM_PROMPT,
