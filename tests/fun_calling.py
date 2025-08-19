@@ -1,7 +1,7 @@
 import requests
 
 payload = {
-  "model": "Llama3-Med42-8B",
+  "model": "tinyllama-1.1b-chat-v1.0",
   "messages": [
       {"role": "system", "content": "You are an assistant."},
       {"role": "user", "content": "How old are you?"}

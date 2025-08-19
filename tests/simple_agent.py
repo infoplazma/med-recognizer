@@ -45,3 +45,4 @@ agent = initialize_agent(
 
 result = agent.invoke({"input": "What is 2 + 2?"})
 print(result["output"])  # → "4"
+
