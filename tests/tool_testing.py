@@ -11,10 +11,9 @@ from dotenv import load_dotenv
 from langchain_core.tools import tool
 from langchain_openai import ChatOpenAI
 
-from langchain_core.messages import AIMessage
+from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough, RunnableLambda
-from langchain_core.messages import HumanMessage, ToolMessage
 from langchain_core.output_parsers.openai_tools import PydanticToolsParser
 
 load_dotenv()
@@ -22,7 +21,7 @@ load_dotenv()
 TEST_MAIN = False
 TEST_TOOL_PARSER = False
 TEST_FEW_SHOT_PROMPT = True
-DEFAULT_MODEL = "tinyllama-1.1b-chat-v1.0"
+DEFAULT_MODEL = "llama3-med42-8b"  # "tinyllama-1.1b-chat-v1.0"
 # DEFAULT_MODEL = "deepretrieval-pubmed-3b-llama"
 
 
