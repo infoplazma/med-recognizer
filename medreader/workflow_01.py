@@ -22,7 +22,7 @@ from langgraph.graph import END, START, StateGraph
 from utils.custom_print import custom_pretty_print, pretty_print_json
 
 GRAPH_PNG_FILE_PATH = "graphs/workflow.png"
-DEFAULT_MODELS = ("llama3-med42-8b", "biomedgpt-lm-7b", "tinyllama-1.1b-chat-v1.0")
+DEFAULT_MODELS = ("llama3-med42-8b", "biomedgpt-lm-7b", "openbiollm-llama3-8b")
 MAX_TOKENS = 1000
 CHUNK_SIZE = 300
 DEFAULT_MODEL = DEFAULT_MODELS[0]

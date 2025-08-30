@@ -1,3 +1,6 @@
+"""
+Пример четырех способов чтения PDF файлов
+"""
 import fitz  # PyMuPDF
 
 
@@ -76,7 +79,7 @@ if __name__ == "__main__":
     import os
 
     pdf_file = os.path.join("../data", "med_sources", "Guide-to-Common-Childhood-Infections-2023_Final-Approved.pdf")
-    page_num = 5  # Номер страницы (начинается с 0)
+    page_num = 10  # Номер страницы (начинается с 0)
 
     # Тестирование каждого варианта
     print("Вариант 1 (Простой текст):")
@@ -84,7 +87,7 @@ if __name__ == "__main__":
     print("\nВариант 2 (Блоки текста):")
     text = read_page_text_blocks(pdf_file, page_num)
     print(text)
-    with open("data/example.txt", "w", encoding="utf-8") as fp:
+    with open("../tests/data/example.txt", "w", encoding="utf-8") as fp:
         fp.write(text.strip())
     print("\nВариант 3 (Словарь текста):")
     print(read_page_text_dict(pdf_file, page_num))

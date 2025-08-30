@@ -1,5 +1,8 @@
 from typing import Optional, List
+
 from transformers import AutoTokenizer, PreTrainedTokenizer
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate
 import threading
 import tiktoken
 
@@ -151,22 +154,75 @@ def approximate_tokens_counter(text: str, model: str = "cl100k_base") -> int:
     return len(tokens)
 
 
+class NumTokensCounter:
+    """Класс для работы с размерами токенов для образца ChatOpenAI"""
+
+    def __init__(self, llm: ChatOpenAI, max_tokens: int = 2048):
+        self.llm = llm
+        self.max_tokens = max_tokens
+
+    def count_num_tokens(self, text: str) -> int:
+        """Функция для подсчета токенов в тексте"""
+        return self.llm.get_num_tokens(text)
+
+    def is_tokens_overage(self, text: str):
+        """Функция для определения превышения количества токенов в тексте"""
+        _num_tokens = self.count_num_tokens(text)
+        return _num_tokens > self.max_tokens
+
+    def check_tokens_overage(self, text: str, tag: str = None):
+        """Функция для вызова исключения"""
+        _num_tokens = self.count_num_tokens(text)
+        if self.is_tokens_overage(text):
+            tag = f"[{tag}]: " if tag else ""
+            raise ValueError(
+                f"{tag}Превышение количества токенов, получено:{_num_tokens} при допустимом:{self.max_tokens}")
+
+    def check_chatprompt_value(self, chatprompt: ChatPromptTemplate, tag: str = None, **kwargs):
+        input_text = chatprompt.format(**kwargs)
+        print(f"{input_text=}")
+        self.check_tokens_overage(input_text, tag)
+
+    def __call__(self, text: str) -> int:
+        """Функтор для подсчета токенов в тексте"""
+        return self.count_num_tokens(text)
+
+
 # --- Пример использования ---
 
 if __name__ == "__main__":
-    counter = Llama3TokenizerCounter("m42-health/Llama3-Med42-8B")
-    text = "Your medical text is here..."
-    num_tokens = counter.count_tokens(text)
-    print(f"Количество токенов: {num_tokens}")
+    # counter = Llama3TokenizerCounter("m42-health/Llama3-Med42-8B")
+    # text = "Your medical text is here..."
+    # num_tokens = counter.count_tokens(text)
+    # print(f"Количество токенов: {num_tokens}")
+    #
+    # # Для получения самих токенов:
+    # tokens = counter.tokenize(text)
+    # print("Токены:", tokens)
+    #
+    # num_tokens = approximate_tokens_counter(text)
+    # print("Приблизительно Токены:", num_tokens)
+    #
+    # gpt_counter = BioMedGPTTokenizerCounter()
+    # num_tokens = gpt_counter.count_tokens(text)
+    # print(f"Количество токенов GPT: {num_tokens}")
 
-    # Для получения самих токенов:
-    tokens = counter.tokenize(text)
-    print("Токены:", tokens)
+    # Инициализация LLM
+    llm = ChatOpenAI(
+        openai_api_base="http://localhost:1234/v1",
+        openai_api_key="not-needed-for-lm-studio",
+        model_name="llama3-med42-8b",
+        temperature=0,
+    )
+    counter = NumTokensCounter(llm=llm, max_tokens=29)
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", "Count how many tokens are in text"),
+        ("human", "**TEXT**:\n\n{text}"),
+        ("assistant", "**MESS**:\n\n{mess} **ONLY JSON** ")
+    ])
 
-    num_tokens = approximate_tokens_counter(text)
-    print("Приблизительно Токены:", num_tokens)
+    num_tok = counter("System: Count how many tokens are in text\nHuman: **TEXT**:\n\nAbout people\nAI: **MESS**:\n\nNew chain of reasoning **ONLY JSON** ")
+    print(f"{num_tok=}")
+    counter.check_chatprompt_value(prompt, text="About people", mess="New chain of reasoning")
 
-    gpt_counter = BioMedGPTTokenizerCounter()
-    num_tokens = gpt_counter.count_tokens(text)
-    print(f"Количество токенов GPT: {num_tokens}")
 
